@@ -7,16 +7,21 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+
+import com.example.ui_exmaple.manager.heartBeat;
 
 public class SegmentProgressBar extends View {
     /**
      * 设置各种默认值
      */
     private static final int DEFAULT_HEIGHT_PROGRESS_BAR = 10;
+    private Runnable mAutoRunnable;
+    private final int INTERVAL = 1000;
     /**
      * 进度条圆角
      */
@@ -85,6 +90,11 @@ public class SegmentProgressBar extends View {
      * 初始化布局
      */
     private void init() {
+        mAutoRunnable = () -> {
+            Log.i("test012","====>");
+            setProgress(heartBeat.getInstance().getProgress());
+            postDelayed(mAutoRunnable, INTERVAL);
+        };
     }
 
 
@@ -119,7 +129,7 @@ public class SegmentProgressBar extends View {
     protected synchronized void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 //        int width = MeasureSpec.getSize(widthMeasureSpec);
-        int width = MeasureSpec.getSize(widthMeasureSpec)*2;
+        int width = MeasureSpec.getSize(widthMeasureSpec) * 2;
         //高度
         int height = measureHeight(heightMeasureSpec);
         //必须调用该方法来存储View经过测量的到的宽度和高度
@@ -184,7 +194,7 @@ public class SegmentProgressBar extends View {
     }
 
 
-    private void SegmentByXfermode(Canvas canvas){
+    private void SegmentByXfermode(Canvas canvas) {
         int sc = canvas.saveLayer(0, 0, mRealWidth, getHeight(), null, Canvas.ALL_SAVE_FLAG);
 
         mPaint.setColor(defaultBackgroundColor);
@@ -196,11 +206,11 @@ public class SegmentProgressBar extends View {
         canvas.drawRoundRect(0, 0, mRealWidth, getHeight(), mRadius, mRadius, mPaint);
         //绘制进度条
         mPaint.setColor(defaultProgressBarColor);
-        canvas.drawRoundRect(0, 0, mRealWidth/100*mProgress, getHeight(), mRadius, mRadius, mPaint);
+        canvas.drawRoundRect(0, 0, mRealWidth / 100 * mProgress, getHeight(), mRadius, mRadius, mPaint);
 
         mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
 
-        canvas.drawRoundRect(mRealWidth/8, 0, mRealWidth/8+10, getHeight(), mRadius, mRadius, mPaint);
+        canvas.drawRoundRect(mRealWidth / 8, 0, mRealWidth / 8 + 10, getHeight(), mRadius, mRadius, mPaint);
 
         mPaint.setXfermode(null);
         canvas.restoreToCount(sc);
@@ -208,6 +218,18 @@ public class SegmentProgressBar extends View {
 
     private void SegmentByArray(Canvas canvas) {
 
+    }
+
+    private boolean mStartProgress;
+
+    public void StartProgress() {
+        mStartProgress = true;
+        post(mAutoRunnable);
+    }
+
+    public void StopProgress() {
+        mStartProgress = false;
+        removeCallbacks(mAutoRunnable);
     }
 
     /**
