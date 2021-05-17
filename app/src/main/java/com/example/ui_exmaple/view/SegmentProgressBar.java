@@ -86,40 +86,16 @@ public class SegmentProgressBar extends View {
         init();
     }
 
-    /**
-     * 初始化布局
-     */
     private void init() {
         mAutoRunnable = () -> {
-            Log.i("test012","====>");
-            setProgress(heartBeat.getInstance().getProgress());
-            postDelayed(mAutoRunnable, INTERVAL);
+            Log.i("test014","mProgress ==> "+mProgress);
+            if (mStartProgress) {
+                setProgress(heartBeat.getInstance().getProgress());
+                postDelayed(mAutoRunnable, INTERVAL);
+            }
         };
     }
 
-
-    /**
-     * 最大值
-     *
-     * @param max
-     */
-    public void setMax(int max) {
-        this.mMax = max;
-        if (max > 0) {
-            mOffset = mRealWidth / mMax / 8;
-            if (mOffset > mDefaultOffset) {
-                mOffset = mDefaultOffset;
-            }
-            progressWith = (mRealWidth - (mMax - 1) * mOffset) / mMax;
-        }
-        invalidate();
-    }
-
-    /**
-     * 进度值
-     *
-     * @param progress
-     */
     public void setProgress(int progress) {
         this.mProgress = progress;
         invalidate();
