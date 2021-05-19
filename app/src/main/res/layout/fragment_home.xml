@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:scrollbars="none">
 
-        <com.example.ui_exmaple.view.SegmentProgressBar
+        <com.example.ui_exmaple.widget.SegmentProgressBar
             android:id="@+id/text_home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

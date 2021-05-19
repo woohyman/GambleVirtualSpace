@@ -1,6 +1,7 @@
 package com.example.ui_exmaple.ui.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +10,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.ui_exmaple.PermissionProxy;
 import com.example.ui_exmaple.R;
-import com.example.ui_exmaple.manager.heartBeat;
-import com.example.ui_exmaple.view.SegmentProgressBar;
+import com.example.ui_exmaple.widget.SegmentProgressBar;
+import com.yanzhenjie.permission.Action;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.runtime.Permission;
+import com.yanzhenjie.permission.runtime.PermissionRequest;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class HomeFragment extends Fragment {
     private SegmentProgressBar mTextHome = null;
@@ -32,6 +39,20 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         mTextHome.StartProgress();
+
+        PermissionRequest permissionRequest = AndPermission.with(this)
+                .runtime()
+                .permission(Permission.CAMERA);
+
+        PermissionProxy.getRequestProxy(permissionRequest)
+                .setKeySource(HomeFragment.class.getSimpleName())
+                .onGranted(data -> {
+                    Log.i("test001", "== onGranted ==");
+                })
+                .onDenied(permissions -> {
+                    // Storage permission are not allowed.
+                })
+                .start();
     }
 
     @Override

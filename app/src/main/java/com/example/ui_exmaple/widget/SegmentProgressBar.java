@@ -1,4 +1,4 @@
-package com.example.ui_exmaple.view;
+package com.example.ui_exmaple.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
