@@ -1,7 +1,7 @@
 package com.example.ui_exmaple.ui.dashboard
 
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +13,9 @@ import com.example.ui_exmaple.PermissionProxy
 import com.example.ui_exmaple.R
 import com.example.ui_exmaple.ui.home.HomeFragment
 import com.yanzhenjie.permission.AndPermission
+import com.yanzhenjie.permission.RequestExecutor
 import com.yanzhenjie.permission.runtime.Permission
+import timber.log.Timber
 
 class DashboardFragment : Fragment() {
 
@@ -32,14 +34,26 @@ class DashboardFragment : Fragment() {
             textView.text = it
         })
 
-        PermissionProxy.getRequestProxy(
-            AndPermission.with(this)
-                .runtime()
-                .permission(Permission.READ_EXTERNAL_STORAGE)
-        )
-            .setKeySource(HomeFragment::class.java.simpleName)
-            .onGranted { data: List<String?>? -> }
-            .onDenied { permissions: List<String?>? -> }
+        val keySource = DashboardFragment::class.java.simpleName
+        val proxy = PermissionProxy.Builder()
+            .setKeySource(keySource)
+            .setRawRationale { context: Context?, data: List<String?>?, executor: RequestExecutor? ->
+                Timber.tag(keySource).i("== RawRationale ==")
+            }
+            .setRawGranted { data: List<String?>? ->
+                Timber.tag(keySource).i("== RawGranted ==")
+            }
+            .setRawDenied { permissions: List<String?>? ->
+                Timber.tag(keySource).i("== RawDenied ==")
+            }
+            .create()
+
+        AndPermission.with(this)
+            .runtime()
+            .permission(Permission.READ_EXTERNAL_STORAGE)
+            .rationale(proxy.rationale)
+            .onGranted(proxy.granted)
+            .onDenied(proxy.denied)
             .start()
 
         return root

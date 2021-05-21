@@ -1,73 +1,95 @@
 package com.example.ui_exmaple;
 
-import android.util.Log;
-
-import androidx.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.Rationale;
-import com.yanzhenjie.permission.runtime.PermissionRequest;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public class PermissionProxy implements PermissionRequest {
-    private PermissionRequest mPermissionRequest;
-    private String mKeySource;
+import timber.log.Timber;
 
-    private PermissionProxy(PermissionRequest permissionRequest) {
-        mPermissionRequest = permissionRequest;
+public class PermissionProxy {
+    private final Rationale<List<String>> mRationale;
+    private final Action<List<String>> mGranted;
+    private final Action<List<String>> mDenied;
+
+    protected PermissionProxy(Rationale<List<String>> rationale, Action<List<String>> granted, Action<List<String>> denied, String mKeySource) {
+        mRationale = RationaleProxy(rationale);
+        mGranted = GrantedProxy(granted, mKeySource);
+        mDenied = DeniedProxy(denied, mKeySource);
     }
 
-    public PermissionProxy setKeySource(String keySource) {
-        mKeySource = keySource;
-        return this;
-    }
-
-    public static PermissionProxy getRequestProxy(PermissionRequest permissionRequest) {
-        return new PermissionProxy(permissionRequest);
-    }
-
-    @Override
-    public PermissionRequest onGranted(@NonNull Action<List<String>> granted) {
-        Action<List<String>> action = data -> {
+    private Rationale<List<String>> RationaleProxy(Rationale<List<String>> rationale) {
+        return (context, data, executor) -> {
             for (String item : data) {
-                Log.i("test001", "onGranted ==> " + item);
+                Timber.tag(PermissionProxy.class.getSimpleName()).i("RationaleProxy|item ==> %s",item);
             }
-            Log.i("test001", "onGranted|mKeySource ==> " + mKeySource);
+            rationale.showRationale(context, data, executor);
+        };
+    }
+
+    private Action<List<String>> GrantedProxy(Action<List<String>> granted, String mKeySource) {
+        return data -> {
+            for (String item : data) {
+                Timber.tag(PermissionProxy.class.getSimpleName()).i("GrantedProxy|item ==> %s",item);
+            }
             granted.onAction(data);
         };
-        return mPermissionRequest.onGranted(action);
     }
 
-    @Override
-    public PermissionRequest onDenied(@NonNull Action<List<String>> denied) {
-        Action<List<String>> action = data -> {
+    private Action<List<String>> DeniedProxy(Action<List<String>> denied, String mKeySource) {
+        return data -> {
             for (String item : data) {
-                Log.i("test001", "onDenied ==> " + item);
+                Timber.tag(PermissionProxy.class.getSimpleName()).i("DeniedProxy|item ==> %s",item);
             }
-            Log.i("test001", "onDenied|mKeySource ==> " + mKeySource);
             denied.onAction(data);
         };
-        return mPermissionRequest.onDenied(action);
     }
 
-    @Override
-    public void start() {
-        mPermissionRequest.start();
+    public Action<List<String>> getDenied() {
+        return mDenied;
     }
 
-    @Override
-    public PermissionRequest permission(@NonNull String... permissions) {
-        return mPermissionRequest.permission(permissions);
+    public Action<List<String>> getGranted() {
+        return mGranted;
     }
 
-    @Override
-    public PermissionRequest permission(@NonNull String[]... groups) {
-        return mPermissionRequest.permission(groups);
+    public Rationale<List<String>> getRationale() {
+        return mRationale;
     }
 
-    @Override
-    public PermissionRequest rationale(@NonNull Rationale<List<String>> rationale) {
-        return mPermissionRequest.rationale(rationale);
+    public static class Builder {
+        private Rationale<List<String>> rawRationale;
+        private Action<List<String>> rawGranted;
+        private Action<List<String>> rawDenied;
+        private String mKeySource;
+
+        public Builder setRawRationale(@NotNull Rationale<List<String>> rawRationale) {
+            this.rawRationale = rawRationale;
+            return this;
+        }
+
+        public Builder setRawGranted(@NotNull Action<List<String>> rawGranted) {
+            this.rawGranted = rawGranted;
+            return this;
+        }
+
+        public Builder setRawDenied(@NotNull Action<List<String>> rawDenied) {
+            this.rawDenied = rawDenied;
+            return this;
+        }
+
+        public Builder setKeySource(@NotNull String keySource) {
+            mKeySource = keySource;
+            return this;
+        }
+
+        public PermissionProxy create() {
+            return new PermissionProxy(rawRationale, rawGranted, rawDenied, mKeySource);
+        }
     }
 }

@@ -13,14 +13,12 @@ import androidx.fragment.app.Fragment;
 import com.example.ui_exmaple.PermissionProxy;
 import com.example.ui_exmaple.R;
 import com.example.ui_exmaple.widget.SegmentProgressBar;
-import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.runtime.Permission;
-import com.yanzhenjie.permission.runtime.PermissionRequest;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
+import timber.log.Timber;
 
 public class HomeFragment extends Fragment {
     private SegmentProgressBar mTextHome = null;
@@ -40,18 +38,26 @@ public class HomeFragment extends Fragment {
         super.onResume();
         mTextHome.StartProgress();
 
-        PermissionRequest permissionRequest = AndPermission.with(this)
-                .runtime()
-                .permission(Permission.CAMERA);
+        String keySource = HomeFragment.class.getSimpleName();
+        PermissionProxy proxy = new PermissionProxy.Builder()
+                .setKeySource(keySource)
+                .setRawRationale((context, data, executor) -> {
+                    Timber.tag(keySource).i("== RawRationale ==");
+                })
+                .setRawGranted(data -> {
+                    Timber.tag(keySource).i("== RawGranted ==");
+                })
+                .setRawDenied(permissions -> {
+                    Timber.tag(keySource).i("== RawDenied ==");
+                })
+                .create();
 
-        PermissionProxy.getRequestProxy(permissionRequest)
-                .setKeySource(HomeFragment.class.getSimpleName())
-                .onGranted(data -> {
-                    Log.i("test001", "== onGranted ==");
-                })
-                .onDenied(permissions -> {
-                    // Storage permission are not allowed.
-                })
+        AndPermission.with(this)
+                .runtime()
+                .permission(Permission.CAMERA)
+                .rationale(proxy.getRationale())
+                .onGranted(proxy.getGranted())
+                .onDenied(proxy.getDenied())
                 .start();
     }
 

@@ -9,10 +9,14 @@ import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.runtime.Permission;
 import com.yanzhenjie.permission.runtime.PermissionRequest;
 
+import timber.log.Timber;
+
 public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
         heartBeat.getInstance().init();
+
+        Timber.plant(new Timber.DebugTree());
     }
 }

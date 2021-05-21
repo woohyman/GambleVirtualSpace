@@ -15,6 +15,8 @@ import androidx.annotation.Nullable;
 
 import com.example.ui_exmaple.manager.heartBeat;
 
+import timber.log.Timber;
+
 public class SegmentProgressBar extends View {
     /**
      * 设置各种默认值
@@ -88,11 +90,9 @@ public class SegmentProgressBar extends View {
 
     private void init() {
         mAutoRunnable = () -> {
-            Log.i("test014","mProgress ==> "+mProgress);
-            if (mStartProgress) {
-                setProgress(heartBeat.getInstance().getProgress());
-                postDelayed(mAutoRunnable, INTERVAL);
-            }
+            Timber.tag(SegmentProgressBar.class.getSimpleName()).i("mProgress ==> %s", mProgress);
+            setProgress(heartBeat.getInstance().getProgress());
+            postDelayed(mAutoRunnable, INTERVAL);
         };
     }
 
@@ -196,15 +196,12 @@ public class SegmentProgressBar extends View {
 
     }
 
-    private boolean mStartProgress;
-
     public void StartProgress() {
-        mStartProgress = true;
+        removeCallbacks(mAutoRunnable);
         post(mAutoRunnable);
     }
 
     public void StopProgress() {
-        mStartProgress = false;
         removeCallbacks(mAutoRunnable);
     }
 
