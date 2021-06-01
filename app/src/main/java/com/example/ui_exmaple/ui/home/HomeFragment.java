@@ -36,34 +36,35 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mTextHome.StartProgress();
+
+        mTextHome.start();
 
         String keySource = HomeFragment.class.getSimpleName();
-        PermissionProxy proxy = new PermissionProxy.Builder()
-                .setKeySource(keySource)
-                .setRawRationale((context, data, executor) -> {
-                    Timber.tag(keySource).i("== RawRationale ==");
-                })
-                .setRawGranted(data -> {
-                    Timber.tag(keySource).i("== RawGranted ==");
-                })
-                .setRawDenied(permissions -> {
-                    Timber.tag(keySource).i("== RawDenied ==");
-                })
-                .create();
-
-        AndPermission.with(this)
-                .runtime()
-                .permission(Permission.CAMERA)
-                .rationale(proxy.getRationale())
-                .onGranted(proxy.getGranted())
-                .onDenied(proxy.getDenied())
-                .start();
+//        PermissionProxy proxy = new PermissionProxy.Builder()
+//                .setKeySource(keySource)
+//                .setRawRationale((context, data, executor) -> {
+//                    Timber.tag(keySource).i("== RawRationale ==");
+//                })
+//                .setRawGranted(data -> {
+//                    Timber.tag(keySource).i("== RawGranted ==");
+//                })
+//                .setRawDenied(permissions -> {
+//                    Timber.tag(keySource).i("== RawDenied ==");
+//                })
+//                .create();
+//
+//        AndPermission.with(this)
+//                .runtime()
+//                .permission(Permission.CAMERA)
+//                .rationale(proxy.getRationale())
+//                .onGranted(proxy.getGranted())
+//                .onDenied(proxy.getDenied())
+//                .start();
     }
 
     @Override
     public void onPause() {
+        mTextHome.stop();
         super.onPause();
-        mTextHome.StopProgress();
     }
 }

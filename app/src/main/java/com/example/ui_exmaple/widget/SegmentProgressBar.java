@@ -2,73 +2,37 @@ package com.example.ui_exmaple.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 
-import com.example.ui_exmaple.manager.heartBeat;
+import com.blankj.utilcode.util.ColorUtils;
+import com.blankj.utilcode.util.ConvertUtils;
+import com.example.ui_exmaple.R;
+import com.example.ui_exmaple.manager.FloatBallManager;
 
-import timber.log.Timber;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SegmentProgressBar extends View {
-    /**
-     * 设置各种默认值
-     */
-    private static final int DEFAULT_HEIGHT_PROGRESS_BAR = 10;
-    private Runnable mAutoRunnable;
-    private final int INTERVAL = 1000;
-    /**
-     * 进度条圆角
-     */
+    //进度条圆角
     private static final float mRadius = 0;
-    /**
-     * 背景色
-     */
-    private int defaultBackgroundColor = Color.parseColor("#DDE4F4");
-    /**
-     * 进度条颜色
-     */
-    private int defaultProgressBarColor = Color.parseColor("#3D7EFE");
 
-    /**
-     * 所有画图所用的画笔
-     */
-    protected Paint mPaint = new Paint();
-    /**
-     * 进度条间距
-     */
-    protected float mOffset = 0;
-    protected float mDefaultOffset = 10;
+    //不同线段之间的间隔
+    private final int mInterval = ConvertUtils.dp2px(6);
+    private final int mMax = 100;
+    private final Paint mPaint = new Paint();
+    private final int mRightDistance = ConvertUtils.dp2px(50);
+    private final List<Float> mStarDrawTranslationX = new ArrayList<>();
+    private final List<Float> mEndDrawTranslationX = new ArrayList<>();
+    private final List<Float> mSegmentWidth = new ArrayList<>();
+    private final List<Float> mTipTranslationX = new ArrayList<>();
 
-    /**
-     * 进度条高度
-     */
-    protected int mProgressBarHeight = dp2px(DEFAULT_HEIGHT_PROGRESS_BAR);
-
-    /**
-     * 除padding外的视图宽度
-     */
     protected float mRealWidth;
-    /**
-     * 最大值
-     */
-    private int mMax = 100;
-    /**
-     * 当前进度
-     */
     private int mProgress = 0;
-    /**
-     * 分段宽度
-     */
-    private float progressWith = 0;
-
+    private int mStep = 0;
 
     public SegmentProgressBar(Context context) {
         this(context, null);
@@ -80,20 +44,74 @@ public class SegmentProgressBar extends View {
 
     public SegmentProgressBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
     }
 
     public SegmentProgressBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init();
     }
 
-    private void init() {
-        mAutoRunnable = () -> {
-            Timber.tag(SegmentProgressBar.class.getSimpleName()).i("mProgress ==> %s", mProgress);
-            setProgress(heartBeat.getInstance().getProgress());
-            postDelayed(mAutoRunnable, INTERVAL);
-        };
+    @Override
+    protected synchronized void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int width = MeasureSpec.getSize(widthMeasureSpec);
+        int height = MeasureSpec.getSize(heightMeasureSpec);
+        setMeasuredDimension(width, height);
+        init(getMeasuredWidth());
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        init(w);
+        invalidate();
+    }
+
+    private Runnable mAutoRunnable;
+
+    public void start() {
+        if (mAutoRunnable == null) {
+            mAutoRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    invalidate();
+                    postDelayed(this, 1000);
+                }
+            };
+        }
+        removeCallbacks(mAutoRunnable);
+        post(mAutoRunnable);
+    }
+
+    public void stop() {
+        removeCallbacks(mAutoRunnable);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        mPaint.setStyle(Paint.Style.FILL);
+        mPaint.setAntiAlias(true);
+
+        mProgress = FloatBallManager.get().getProgress();
+        mStep = FloatBallManager.get().getStep();
+
+        for (int i = 0, size = FloatBallManager.get().getStepSize(); i < size; i++) {
+            //绘制前景
+            if (i < mStep) {
+                mPaint.setColor(ColorUtils.getColor(R.color.online_progress_normal));
+                canvas.drawRoundRect(mStarDrawTranslationX.get(i), 0, mEndDrawTranslationX.get(i), getHeight(), mRadius, mRadius, mPaint);
+            }
+            //绘制背景
+            else {
+                mPaint.setColor(ColorUtils.getColor(R.color.white));
+                canvas.drawRoundRect(mStarDrawTranslationX.get(i), 0, mEndDrawTranslationX.get(i), getHeight(), mRadius, mRadius, mPaint);
+            }
+            //绘制正在增加的进度
+            if (i == mStep) {
+                mPaint.setColor(ColorUtils.getColor(R.color.online_progress_normal));
+                canvas.drawRoundRect(mStarDrawTranslationX.get(mStep), 0, mStarDrawTranslationX.get(mStep) + mSegmentWidth.get(mStep) / mMax * mProgress, getHeight(), mRadius, mRadius, mPaint);
+            }
+        }
     }
 
     public void setProgress(int progress) {
@@ -101,117 +119,24 @@ public class SegmentProgressBar extends View {
         invalidate();
     }
 
-    @Override
-    protected synchronized void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-//        int width = MeasureSpec.getSize(widthMeasureSpec);
-        int width = MeasureSpec.getSize(widthMeasureSpec) * 2;
-        //高度
-        int height = measureHeight(heightMeasureSpec);
-        //必须调用该方法来存储View经过测量的到的宽度和高度
-        setMeasuredDimension(width, height);
-        //真正的宽度值是减去左右padding
-        mRealWidth = getMeasuredWidth() - getPaddingRight() - getPaddingLeft();
-        //使用画笔在画布上绘制进度
-        if (mMax > 0) {
-            mOffset = mRealWidth / mMax / 8;
-            if (mOffset > mDefaultOffset) {
-                mOffset = mDefaultOffset;
-            }
-            progressWith = (mRealWidth - (mMax - 1) * mOffset) / mMax;
+    private void init(int width) {
+        mRealWidth = width - getPaddingRight() - getPaddingLeft() - mInterval * (FloatBallManager.get().getStepSize() - 1) - mRightDistance;
+        float widthUnit = mRealWidth / FloatBallManager.get().getTotalCount();
+        List<Integer> stepCompleteNode = FloatBallManager.get().getStepCompleteNode();
+        List<Integer> stepTimeInterval = FloatBallManager.get().getStepTimeInterval();
+        for (int i = 0; i < FloatBallManager.get().getStepSize(); i++) {
+            mStarDrawTranslationX.add(i == 0 ? 0 : widthUnit * stepCompleteNode.get(i - 1) + mInterval * i);
+            mEndDrawTranslationX.add(widthUnit * stepCompleteNode.get(i) + mInterval * i);
+            mSegmentWidth.add(stepTimeInterval.get(i) * widthUnit);
+            mTipTranslationX.add(widthUnit * stepCompleteNode.get(i) + mInterval * (1 / 2f + i));
         }
     }
 
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        //真正的宽度值是减去左右padding
-        mRealWidth = w - getPaddingRight() - getPaddingLeft();
-        //使用画笔在画布上绘制进度
-        if (mMax > 0) {
-            mOffset = mRealWidth / mMax / 8;
-            if (mOffset > mDefaultOffset) {
-                mOffset = mDefaultOffset;
-            }
-            progressWith = (mRealWidth - (mMax - 1) * mOffset) / mMax;
-        }
-        invalidate();
+    public int getRightDistance() {
+        return mRightDistance;
     }
 
-    /**
-     * EXACTLY：父控件告诉我们子控件了一个确定的大小，你就按这个大小来布局。比如我们指定了确定的dp值和macth_parent的情况。
-     * AT_MOST：当前控件不能超过一个固定的最大值，一般是wrap_content的情况。
-     * UNSPECIFIED:当前控件没有限制，要多大就有多大，这种情况很少出现。
-     *
-     * @param measureSpec
-     * @return 视图的高度
-     */
-    private int measureHeight(int measureSpec) {
-        int result = 0;
-        //父布局告诉我们控件的类型
-        int specMode = MeasureSpec.getMode(measureSpec);
-        //父布局传过来的视图大小
-        int specSize = MeasureSpec.getSize(measureSpec);
-        if (specMode == MeasureSpec.EXACTLY) {
-            result = specSize;
-        } else {
-            result = (int) (getPaddingTop() + getPaddingBottom() + mProgressBarHeight);
-            if (specMode == MeasureSpec.AT_MOST) {
-                result = Math.min(result, specSize);
-            }
-        }
-        return result;
-    }
-
-    @Override
-    protected synchronized void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        SegmentByXfermode(canvas);
-    }
-
-
-    private void SegmentByXfermode(Canvas canvas) {
-        int sc = canvas.saveLayer(0, 0, mRealWidth, getHeight(), null, Canvas.ALL_SAVE_FLAG);
-
-        mPaint.setColor(defaultBackgroundColor);
-        //设置画笔类型
-        mPaint.setStyle(Paint.Style.FILL);
-        //去除锯齿
-        mPaint.setAntiAlias(true);
-        //使用画笔在画布上绘制背景
-        canvas.drawRoundRect(0, 0, mRealWidth, getHeight(), mRadius, mRadius, mPaint);
-        //绘制进度条
-        mPaint.setColor(defaultProgressBarColor);
-        canvas.drawRoundRect(0, 0, mRealWidth / 100 * mProgress, getHeight(), mRadius, mRadius, mPaint);
-
-        mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
-
-        canvas.drawRoundRect(mRealWidth / 8, 0, mRealWidth / 8 + 10, getHeight(), mRadius, mRadius, mPaint);
-
-        mPaint.setXfermode(null);
-        canvas.restoreToCount(sc);
-    }
-
-    private void SegmentByArray(Canvas canvas) {
-
-    }
-
-    public void StartProgress() {
-        removeCallbacks(mAutoRunnable);
-        post(mAutoRunnable);
-    }
-
-    public void StopProgress() {
-        removeCallbacks(mAutoRunnable);
-    }
-
-    /**
-     * dp 2 px
-     *
-     * @param dpVal
-     */
-    protected int dp2px(int dpVal) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                dpVal, getResources().getDisplayMetrics());
+    public List<Float> getTipLoc() {
+        return mTipTranslationX;
     }
 }
