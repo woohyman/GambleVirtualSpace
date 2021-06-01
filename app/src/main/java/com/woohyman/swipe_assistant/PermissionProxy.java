@@ -1,13 +1,10 @@
 package com.woohyman.swipe_assistant;
 
-import android.text.TextUtils;
-
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.Rationale;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import timber.log.Timber;

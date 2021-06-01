@@ -11,7 +11,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.woohyman.swipe_assistant.PermissionProxy
 import com.woohyman.swipe_assistant.R
-import com.woohyman.swipe_assistant.ui.home.HomeFragment
 import com.yanzhenjie.permission.AndPermission
 import com.yanzhenjie.permission.RequestExecutor
 import com.yanzhenjie.permission.runtime.Permission

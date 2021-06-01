@@ -2,7 +2,9 @@ package com.woohyman.swipe_assistant.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -34,6 +36,8 @@ public class SegmentProgressBar extends View {
     private int mProgress = 0;
     private int mStep = 0;
 
+    private Paint mTextPaint;
+
     public SegmentProgressBar(Context context) {
         this(context, null);
     }
@@ -53,9 +57,19 @@ public class SegmentProgressBar extends View {
     @Override
     protected synchronized void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int width = MeasureSpec.getSize(widthMeasureSpec);
-        int height = MeasureSpec.getSize(heightMeasureSpec);
-        setMeasuredDimension(width, height);
+        int wSpecMode = MeasureSpec.getMode(widthMeasureSpec);
+        int wSpecSize = MeasureSpec.getSize(widthMeasureSpec);
+        int hSpecMode = MeasureSpec.getMode(heightMeasureSpec);
+        int hSpecSize = MeasureSpec.getSize(heightMeasureSpec);
+
+        if (wSpecMode == MeasureSpec.AT_MOST && hSpecMode == MeasureSpec.AT_MOST) {
+            setMeasuredDimension(300, 300);
+        } else if (wSpecMode == MeasureSpec.AT_MOST) {
+            setMeasuredDimension(300, hSpecSize);
+        } else if (hSpecMode == MeasureSpec.AT_MOST) {
+            setMeasuredDimension(wSpecSize * 2, 300);
+        }
+
         init(getMeasuredWidth());
     }
 
@@ -99,19 +113,32 @@ public class SegmentProgressBar extends View {
             //绘制前景
             if (i < mStep) {
                 mPaint.setColor(ColorUtils.getColor(R.color.online_progress_normal));
-                canvas.drawRoundRect(mStarDrawTranslationX.get(i), 0, mEndDrawTranslationX.get(i), getHeight(), mRadius, mRadius, mPaint);
+                canvas.drawRoundRect(mStarDrawTranslationX.get(i), getHeight() - 20, mEndDrawTranslationX.get(i), getHeight(), mRadius, mRadius, mPaint);
             }
             //绘制背景
             else {
                 mPaint.setColor(ColorUtils.getColor(R.color.white));
-                canvas.drawRoundRect(mStarDrawTranslationX.get(i), 0, mEndDrawTranslationX.get(i), getHeight(), mRadius, mRadius, mPaint);
+                canvas.drawRoundRect(mStarDrawTranslationX.get(i), getHeight() - 20, mEndDrawTranslationX.get(i), getHeight(), mRadius, mRadius, mPaint);
             }
             //绘制正在增加的进度
             if (i == mStep) {
                 mPaint.setColor(ColorUtils.getColor(R.color.online_progress_normal));
-                canvas.drawRoundRect(mStarDrawTranslationX.get(mStep), 0, mStarDrawTranslationX.get(mStep) + mSegmentWidth.get(mStep) / mMax * mProgress, getHeight(), mRadius, mRadius, mPaint);
+                canvas.drawRoundRect(mStarDrawTranslationX.get(mStep), getHeight() - 20, mStarDrawTranslationX.get(mStep) + mSegmentWidth.get(mStep) / mMax * mProgress, getHeight(), mRadius, mRadius, mPaint);
             }
         }
+
+        String tip = "progress=" + mProgress;
+        //拿到字符串的宽度
+        float stringWidth = mTextPaint.measureText(tip);
+        Paint.FontMetrics fontMetrics = mTextPaint.getFontMetrics();
+
+        Typeface font = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD);
+        mTextPaint.setTypeface(font);
+
+        mTextPaint.setStyle(Paint.Style.STROKE);
+
+        float offsetX = mStarDrawTranslationX.get(mStep) + mSegmentWidth.get(mStep) / mMax * mProgress - stringWidth / 2;
+        canvas.drawText(tip, offsetX, getHeight() - 20 - fontMetrics.descent, mTextPaint);
     }
 
     public void setProgress(int progress) {
@@ -130,6 +157,10 @@ public class SegmentProgressBar extends View {
             mSegmentWidth.add(stepTimeInterval.get(i) * widthUnit);
             mTipTranslationX.add(widthUnit * stepCompleteNode.get(i) + mInterval * (1 / 2f + i));
         }
+
+        mTextPaint = new Paint();
+        mTextPaint.setColor(Color.parseColor("#FF4081"));
+        mTextPaint.setTextSize(30f);
     }
 
     public int getRightDistance() {
