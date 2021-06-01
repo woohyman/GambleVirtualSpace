@@ -1,4 +1,4 @@
-package com.example.ui_exmaple.ui.home;
+package com.woohyman.swipe_assistant.ui.home;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -10,9 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.ui_exmaple.PermissionProxy;
-import com.example.ui_exmaple.R;
-import com.example.ui_exmaple.widget.SegmentProgressBar;
+import com.woohyman.swipe_assistant.PermissionProxy;
+import com.woohyman.swipe_assistant.R;
+import com.woohyman.swipe_assistant.widget.SegmentProgressBar;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.runtime.Permission;
 

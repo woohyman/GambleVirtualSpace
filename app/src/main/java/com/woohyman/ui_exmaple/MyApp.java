@@ -1,9 +1,9 @@
-package com.example.ui_exmaple;
+package com.woohyman.swipe_assistant;
 
 import android.app.Application;
 
-import com.example.ui_exmaple.manager.FloatBallManager;
-import com.example.ui_exmaple.manager.heartBeat;
+import com.woohyman.swipe_assistant.manager.FloatBallManager;
+import com.woohyman.swipe_assistant.manager.heartBeat;
 
 import timber.log.Timber;
 

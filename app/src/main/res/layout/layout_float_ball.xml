@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="+256" />
 
-    <com.example.ui_exmaple.widget.CircleProgress
+    <com.woohyman.swipe_assistant.widget.CircleProgress
         android:id="@+id/circleProgress"
         android:layout_width="60dp"
         android:layout_height="60dp"

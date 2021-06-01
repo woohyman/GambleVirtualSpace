@@ -1,4 +1,4 @@
-package com.example.ui_exmaple;
+package com.woohyman.swipe_assistant;
 
 import android.text.TextUtils;
 

@@ -1,4 +1,4 @@
-package com.example.ui_exmaple.widget;
+package com.woohyman.swipe_assistant.widget;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
@@ -15,7 +15,7 @@ import androidx.annotation.Keep;
 import androidx.annotation.Nullable;
 
 import com.blankj.utilcode.util.ConvertUtils;
-import com.example.ui_exmaple.R;
+import com.woohyman.swipe_assistant.R;
 
 import timber.log.Timber;
 

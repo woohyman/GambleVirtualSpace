@@ -1,4 +1,4 @@
-package com.example.ui_exmaple.manager;
+package com.woohyman.swipe_assistant.manager;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
-import com.example.ui_exmaple.widget.FloatBall;
+import com.woohyman.swipe_assistant.widget.FloatBall;
 
 import java.util.ArrayList;
 import java.util.Arrays;

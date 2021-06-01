@@ -1,4 +1,4 @@
-package com.example.ui_exmaple.manager;
+package com.woohyman.swipe_assistant.manager;
 
 import android.util.Pair;
 

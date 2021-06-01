@@ -1,4 +1,4 @@
-package com.example.ui_exmaple.widget;
+package com.woohyman.swipe_assistant.widget;
 
 import android.content.res.Configuration;
 import android.view.MotionEvent;
@@ -15,8 +15,8 @@ import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.TouchUtils;
 import com.blankj.utilcode.util.Utils;
-import com.example.ui_exmaple.R;
-import com.example.ui_exmaple.manager.FloatBallManager;
+import com.woohyman.swipe_assistant.R;
+import com.woohyman.swipe_assistant.manager.FloatBallManager;
 
 public class FloatBall extends RelativeLayout {
 

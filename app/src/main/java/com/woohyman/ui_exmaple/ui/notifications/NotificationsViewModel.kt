@@ -1,4 +1,4 @@
-package com.example.ui_exmaple.ui.notifications
+package com.woohyman.swipe_assistant.ui.notifications
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

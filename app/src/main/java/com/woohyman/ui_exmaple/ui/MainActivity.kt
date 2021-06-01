@@ -1,4 +1,4 @@
-package com.example.ui_exmaple.ui
+package com.woohyman.swipe_assistant.ui
 
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -7,7 +7,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.ui_exmaple.R
+import com.woohyman.swipe_assistant.R
 
 class MainActivity : AppCompatActivity() {
 

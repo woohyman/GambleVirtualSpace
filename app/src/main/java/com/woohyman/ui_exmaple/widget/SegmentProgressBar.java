@@ -1,4 +1,4 @@
-package com.example.ui_exmaple.widget;
+package com.woohyman.swipe_assistant.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -10,8 +10,8 @@ import androidx.annotation.Nullable;
 
 import com.blankj.utilcode.util.ColorUtils;
 import com.blankj.utilcode.util.ConvertUtils;
-import com.example.ui_exmaple.R;
-import com.example.ui_exmaple.manager.FloatBallManager;
+import com.woohyman.swipe_assistant.R;
+import com.woohyman.swipe_assistant.manager.FloatBallManager;
 
 import java.util.ArrayList;
 import java.util.List;

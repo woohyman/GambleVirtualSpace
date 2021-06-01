@@ -1,4 +1,4 @@
-package com.example.ui_exmaple.ui.dashboard
+package com.woohyman.swipe_assistant.ui.dashboard
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
