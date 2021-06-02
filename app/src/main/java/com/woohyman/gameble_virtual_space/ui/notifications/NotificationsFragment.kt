@@ -1,4 +1,4 @@
-package com.woohyman.swipe_assistant.ui.notifications
+package com.woohyman.gameble_virtual_space.ui.notifications
 
 import android.content.Context
 import android.os.Bundle
@@ -9,8 +9,8 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.woohyman.swipe_assistant.PermissionProxy
-import com.woohyman.swipe_assistant.R
+import com.woohyman.gameble_virtual_space.PermissionProxy
+import com.woohyman.gameble_virtual_space.R
 import com.yanzhenjie.permission.AndPermission
 import com.yanzhenjie.permission.RequestExecutor
 import com.yanzhenjie.permission.runtime.Permission

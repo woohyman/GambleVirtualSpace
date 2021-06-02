@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.woohyman.swipe_assistant.ui.home.HomeFragment"
+        android:name="com.woohyman.gameble_virtual_space.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.woohyman.swipe_assistant.ui.dashboard.DashboardFragment"
+        android:name="com.woohyman.gameble_virtual_space.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.woohyman.swipe_assistant.ui.notifications.NotificationsFragment"
+        android:name="com.woohyman.gameble_virtual_space.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
 </navigation>

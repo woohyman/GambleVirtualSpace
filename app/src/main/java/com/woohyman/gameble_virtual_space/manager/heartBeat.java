@@ -1,4 +1,4 @@
-package com.woohyman.swipe_assistant.manager;
+package com.woohyman.gameble_virtual_space.manager;
 
 import android.util.Pair;
 

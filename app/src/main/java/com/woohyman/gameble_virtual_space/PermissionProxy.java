@@ -1,4 +1,4 @@
-package com.woohyman.swipe_assistant;
+package com.woohyman.gameble_virtual_space;
 
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.Rationale;

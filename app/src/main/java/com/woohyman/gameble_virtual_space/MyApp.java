@@ -1,9 +1,9 @@
-package com.woohyman.swipe_assistant;
+package com.woohyman.gameble_virtual_space;
 
 import android.app.Application;
 
-import com.woohyman.swipe_assistant.manager.FloatBallManager;
-import com.woohyman.swipe_assistant.manager.heartBeat;
+import com.woohyman.gameble_virtual_space.manager.FloatBallManager;
+import com.woohyman.gameble_virtual_space.manager.heartBeat;
 
 import timber.log.Timber;
 

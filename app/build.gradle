@@ -8,7 +8,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.woohyman.swipe_assistant"
+        applicationId "com.woohyman.gameble_virtual_space"
         minSdkVersion 28
         targetSdkVersion 30
         versionCode 1

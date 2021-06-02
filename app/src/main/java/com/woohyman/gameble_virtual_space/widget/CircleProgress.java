@@ -1,4 +1,4 @@
-package com.woohyman.swipe_assistant.widget;
+package com.woohyman.gameble_virtual_space.widget;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
@@ -15,7 +15,7 @@ import androidx.annotation.Keep;
 import androidx.annotation.Nullable;
 
 import com.blankj.utilcode.util.ConvertUtils;
-import com.woohyman.swipe_assistant.R;
+import com.woohyman.gameble_virtual_space.R;
 
 import timber.log.Timber;
 

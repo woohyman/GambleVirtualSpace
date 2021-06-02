@@ -1,4 +1,4 @@
-package com.woohyman.swipe_assistant.widget;
+package com.woohyman.gameble_virtual_space.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -12,8 +12,8 @@ import androidx.annotation.Nullable;
 
 import com.blankj.utilcode.util.ColorUtils;
 import com.blankj.utilcode.util.ConvertUtils;
-import com.woohyman.swipe_assistant.R;
-import com.woohyman.swipe_assistant.manager.FloatBallManager;
+import com.woohyman.gameble_virtual_space.R;
+import com.woohyman.gameble_virtual_space.manager.FloatBallManager;
 
 import java.util.ArrayList;
 import java.util.List;
