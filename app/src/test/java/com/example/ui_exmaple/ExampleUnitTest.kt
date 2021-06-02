@@ -1,4 +1,4 @@
-package com.woohyman.gameble_virtual_space
+package com.woohyman.Gamble_virtual_space
 
 import org.junit.Test
 

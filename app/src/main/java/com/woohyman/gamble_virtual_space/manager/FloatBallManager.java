@@ -1,4 +1,4 @@
-package com.woohyman.gameble_virtual_space.manager;
+package com.woohyman.Gamble_virtual_space.manager;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
-import com.woohyman.gameble_virtual_space.widget.FloatBall;
+import com.woohyman.Gamble_virtual_space.widget.FloatBall;
 
 import java.util.ArrayList;
 import java.util.Arrays;

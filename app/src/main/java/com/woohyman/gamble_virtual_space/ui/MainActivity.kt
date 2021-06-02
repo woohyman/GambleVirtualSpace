@@ -1,4 +1,4 @@
-package com.woohyman.gameble_virtual_space.ui
+package com.woohyman.Gamble_virtual_space.ui
 
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -7,7 +7,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.woohyman.gameble_virtual_space.R
+import com.woohyman.Gamble_virtual_space.R
 
 class MainActivity : AppCompatActivity() {
 

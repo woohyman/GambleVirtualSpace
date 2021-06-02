@@ -1,4 +1,4 @@
-package com.woohyman.gameble_virtual_space;
+package com.woohyman.Gamble_virtual_space;
 
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.Rationale;

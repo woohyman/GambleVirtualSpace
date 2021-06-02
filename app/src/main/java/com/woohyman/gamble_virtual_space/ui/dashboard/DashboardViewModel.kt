@@ -1,4 +1,4 @@
-package com.woohyman.gameble_virtual_space.ui.dashboard
+package com.woohyman.Gamble_virtual_space.ui.dashboard
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

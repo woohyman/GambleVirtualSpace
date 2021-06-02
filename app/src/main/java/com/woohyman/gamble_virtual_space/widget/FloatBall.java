@@ -1,4 +1,4 @@
-package com.woohyman.gameble_virtual_space.widget;
+package com.woohyman.Gamble_virtual_space.widget;
 
 import android.content.res.Configuration;
 import android.view.MotionEvent;
@@ -15,8 +15,8 @@ import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.TouchUtils;
 import com.blankj.utilcode.util.Utils;
-import com.woohyman.gameble_virtual_space.R;
-import com.woohyman.gameble_virtual_space.manager.FloatBallManager;
+import com.woohyman.Gamble_virtual_space.R;
+import com.woohyman.Gamble_virtual_space.manager.FloatBallManager;
 
 public class FloatBall extends RelativeLayout {
 

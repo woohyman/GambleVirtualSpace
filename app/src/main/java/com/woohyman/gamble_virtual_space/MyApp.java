@@ -1,9 +1,9 @@
-package com.woohyman.gameble_virtual_space;
+package com.woohyman.Gamble_virtual_space;
 
 import android.app.Application;
 
-import com.woohyman.gameble_virtual_space.manager.FloatBallManager;
-import com.woohyman.gameble_virtual_space.manager.heartBeat;
+import com.woohyman.Gamble_virtual_space.manager.FloatBallManager;
+import com.woohyman.Gamble_virtual_space.manager.heartBeat;
 
 import timber.log.Timber;
 

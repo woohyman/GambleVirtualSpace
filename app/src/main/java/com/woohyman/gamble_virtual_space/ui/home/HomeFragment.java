@@ -1,4 +1,4 @@
-package com.woohyman.gameble_virtual_space.ui.home;
+package com.woohyman.Gamble_virtual_space.ui.home;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -10,9 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.woohyman.gameble_virtual_space.PermissionProxy;
-import com.woohyman.gameble_virtual_space.R;
-import com.woohyman.gameble_virtual_space.widget.SegmentProgressBar;
+import com.woohyman.Gamble_virtual_space.PermissionProxy;
+import com.woohyman.Gamble_virtual_space.R;
+import com.woohyman.Gamble_virtual_space.widget.SegmentProgressBar;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.runtime.Permission;
 

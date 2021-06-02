@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.woohyman.gameble_virtual_space.widget.SegmentProgressBar
+        <com.woohyman.Gamble_virtual_space.widget.SegmentProgressBar
             android:id="@+id/text_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

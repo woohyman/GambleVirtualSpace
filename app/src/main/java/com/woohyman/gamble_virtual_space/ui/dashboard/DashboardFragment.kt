@@ -1,4 +1,4 @@
-package com.woohyman.gameble_virtual_space.ui.notifications
+package com.woohyman.Gamble_virtual_space.ui.dashboard
 
 import android.content.Context
 import android.os.Bundle
@@ -9,31 +9,31 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.woohyman.gameble_virtual_space.PermissionProxy
-import com.woohyman.gameble_virtual_space.R
+import com.woohyman.Gamble_virtual_space.PermissionProxy
+import com.woohyman.Gamble_virtual_space.R
 import com.yanzhenjie.permission.AndPermission
 import com.yanzhenjie.permission.RequestExecutor
 import com.yanzhenjie.permission.runtime.Permission
 import timber.log.Timber
 
-class NotificationsFragment : Fragment() {
+class DashboardFragment : Fragment() {
 
-    private lateinit var notificationsViewModel: NotificationsViewModel
+    private lateinit var dashboardViewModel: DashboardViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        notificationsViewModel =
-            ViewModelProvider(this).get(NotificationsViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_notifications, container, false)
-        val textView: TextView = root.findViewById(R.id.text_notifications)
-        notificationsViewModel.text.observe(viewLifecycleOwner, Observer {
+        dashboardViewModel =
+            ViewModelProvider(this).get(DashboardViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
+        val textView: TextView = root.findViewById(R.id.text_dashboard)
+        dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
 
-        val keySource = NotificationsFragment::class.java.simpleName
+        val keySource = DashboardFragment::class.java.simpleName
         val proxy = PermissionProxy.Builder()
             .setKeySource(keySource)
             .setRawRationale { context: Context?, data: List<String?>?, executor: RequestExecutor? ->
@@ -49,7 +49,7 @@ class NotificationsFragment : Fragment() {
 
         AndPermission.with(this)
             .runtime()
-            .permission(Permission.CALL_PHONE, Permission.SEND_SMS)
+            .permission(Permission.READ_EXTERNAL_STORAGE)
             .rationale(proxy.rationale)
             .onGranted(proxy.granted)
             .onDenied(proxy.denied)

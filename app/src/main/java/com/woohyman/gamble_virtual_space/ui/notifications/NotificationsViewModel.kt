@@ -1,4 +1,4 @@
-package com.woohyman.gameble_virtual_space.ui.notifications
+package com.woohyman.Gamble_virtual_space.ui.notifications
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

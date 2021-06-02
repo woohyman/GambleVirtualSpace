@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.woohyman.gameble_virtual_space">
+    package="com.woohyman.Gamble_virtual_space">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA"/>
@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.SwipeAssistant">
+        android:theme="@style/Theme.GambleVirtualSpace">
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name">

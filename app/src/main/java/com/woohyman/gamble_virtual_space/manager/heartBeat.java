@@ -1,4 +1,4 @@
-package com.woohyman.gameble_virtual_space.manager;
+package com.woohyman.Gamble_virtual_space.manager;
 
 import android.util.Pair;
 
